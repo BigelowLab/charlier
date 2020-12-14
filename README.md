@@ -1,0 +1,244 @@
+# [charlier](https://github.com/BigelowLab/charlier)
+
+A small set of R tools to make working on `charlie` with worklows a little easier.
+
+## Requirements
+
+  + [R v4+](https://www.r-project.org/)
+  
+  + [futile.logger](https://CRAN.R-project.org/package=futile.logger)
+  
+  
+## Features
+
++ Establish standard logging (to log file and console)
+
++ Audit currently installed R software
+
++ Interact with environment
+
++ Manage configuration lists
+
++ Version parsing
+
++ Sending emails
+
++ Tidy R data files (Rds)
+
++ File extensions
+
+
+## Installation
+
+Within R...
+
+```
+devtools::install_github("BigelowLab/charlier") # if you have credentials to github
+
+# or 
+
+devtools::install("/mnt/storage/data/edna/packages/charlier") # if you have access to github /mnt/storage/data/edna/packages
+```
+
+## Introduction
+
+### Logging
+
+We recommend using the [futile.logger](https://CRAN.R-project.org/package=futile.logger) package.  We don't use it's full functionality, but it's interface is pretty simple and easy. Well, **except** for kicking it off.  We suggest that you log to the console and a log file at the same time - called a unixy term `tee`. Configuring the logger to `tee` can be a bit opaque to the casual scripter, so we have wrapped the details in a simplifying function.  Once you load the `futile.logger` package it's logging services are available to you, then just configure the `tee`, and, finally, start messaging.
+
+```
+library(futile.logger)
+charlier::start_logger(filename = "~/my_log")
+```
+
+At the simplest usage, we have three levels of messaging available to us: informational, warning and error.  Messages can be crafted programmatically using the same string construction as used in the [sprintf](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sprintf) function. The point is to use logging in a an automated script or workflow, so learning to build messages programmatically is worthwhile.
+
+```
+what <- list("coffee", 2, "you're gonna need a lot more")
+
+flog.info("Good morning, have you had your %s?", what[[1]])
+#INFO [2020-12-14 07:52:44] Good morning, have you had your coffee?
+
+flog.warn("Oh, you might need %i cups of %s", what[[2]], what[[1]])
+#WARN [2020-12-14 07:53:43] Oh, you might need 2 cups of coffee
+
+flog.error("Uh, %s than %i cups of %s", what[[3]], what[[2]], what[[1]])
+#ERROR [2020-12-14 07:53:57] Uh, you're gonna need a lot more than 2 cups of coffee
+```
+
+
+### Auditing installed R software
+
+In addition to using repositories, containers, modules and the like to manage software versions, soemtimes it is nice to simple dump a snapshot of current software to a text file.  It is not a bad idea to do so for every workflow version you run - much as you might establish logging. 
+
+```
+charlier::audit(filename = "~/my_audit.txt")
+```
+
+Here's an snippet of the first dozen lines...
+
+```
+Audit date: 2020-12-14 08:04:49 EST 
+System PID: 14355 
+PBS_JOBID:  
+Cores: 4 
+R version: R version 4.0.3 (2020-10-10) 
+libPaths():
+     /home/btupper/R/x86_64-conda-linux-gnu-library/4.0 
+     /mnt/modules/bin/dada2/1.18/lib/R/library 
+installed.packages():
+"Package","Version","LibPath"
+"charlier","0.1","/home/btupper/R/x86_64-conda-linux-gnu-library/4.0"
+"dplyr","1.0.2","/home/btupper/R/x86_64-conda-linux-gnu-library/4.0"
+"generics","0.1.0","/home/btupper/R/x86_64-conda-linux-gnu-library/4.0"
+  .
+  .
+  .
+```
+
+
+### Interact with the environment
+
+Some information we need to get from the system environment. Currently we provide functions to retrieve the currently active PBS jobid (if any) and the number of cores which is set in the PBS environment.
+
+If you have not invoked a PBS environment then there is no jobid and an epmty string is returned. If you prefer it be explicit you can provide the text to use when there is no PBS jobid.
+```
+charlier::get_pbs_jobid()
+# [1] ""
+charlier::get_pbs_jobid(no_pbs_text = "ooops, did you forget to queue up a session?")
+#[1] "ooops, did you forget to queue up a session?"
+```
+
+
+If the `NCPUS` system environment variable has been set then we return that, but if not then we allow R to autodetect using the function [parallel::detectCores()](https://www.rdocumentation.org/packages/parallel/versions/3.6.2/topics/detectCores).
+
+```
+charlier::count_cores()
+# [1] 4
+```
+
+
+### Manage configuration files
+
+We use a simple and widely used configuration file format called [yaml](https://yaml.org/).  We rely on the [yaml](https://CRAN.R-project.org/package=yaml) R package for input and output.  Once you are within R, a configuration is just a list, possibly nested, where every element in named.
+
+We provide an example that you can read and write.
+
+```
+cfg = charlier::read_config(example = TRUE)
+#List of 2
+# $ global :List of 2
+#  ..$ foo  : num 1
+#  ..$ paths:List of 2
+#  .. ..$ input_path : chr "/my/input_path"
+#  .. ..$ output_path: chr "/my/input_path/output"
+# $ process:List of 4
+#  ..$ in : chr "$GLOBAL_INPUT_PATH"
+#  ..$ out: chr "$GLOBAL_OUTPUT_PATH"
+#  ..$ pi : num 3.14
+#  ..$ bar: chr "$GLOBAL_FOO"
+
+charlier::write_config(cfg, "~/my_very_own_config.yaml")
+```
+
+Depending upon your needs, you may discover that some values in the configuration file are repeated.  Given that yaml files are often hand crafted that can lead to keystroke and other user entry errors. These errors most often happen when working with file and directory path descriptions.  We implement an optional 'autopopulate' feature so that you can write into a particular section a set of global values that are automatically sprinkled through the remainder of the configuration file where appropriate.
+
+The example configuration looks like this in the file. Note the presence of value placeholder in the style of `$NAME1_NAME2...` such as `$GLOBAL_PATHS_INPUT_PATH` and `$GLOBAL_FOO`. 
+
+```
+global:
+  foo: 1.0
+  paths:
+    input_path: /my/input_path
+    output_path: /my/input_path/output
+process:
+  in: $GLOBAL_PATHS_INPUT_PATH
+  out: $GLOBAL_PATHS_OUTPUT_PATH
+  pi: 3.14
+  bar: $GLOBAL_FOO
+```
+
+We can run autopopulation if are explicit about the names we want to replace. The output shows that 
+placeholder values have been filled with elements from the global section.
+
+```
+y <- charlier::autopopulate_config(x, 
+  fields = list(
+      foo = "foo",
+      paths = list("input_path", "output_path")))
+# List of 2
+#  $ global :List of 2
+#   ..$ foo  : num 1
+#   ..$ paths:List of 2
+#   .. ..$ input_path : chr "/my/input_path"
+#   .. ..$ output_path: chr "/my/input_path/output"
+#  $ process:List of 4
+#   ..$ in : chr "/my/input_path"
+#   ..$ out: chr "/my/input_path/output"
+#   ..$ pi : num 3.14
+#   ..$ bar: int 1
+```
+
+
+
+### Version parsing
+
+If you are using segmented version patterns, like `v72.002.304` which is comprised of 'major.minor.release', you can parse or build version strings.
+
+```
+v <- "v72.002.304"
+
+v_parts <- charlier::parse_version(v)
+# major   minor release 
+# "v72"   "002"   "304" 
+ 
+v_again <- charlier::build_version(major = v_parts[1], minor = v_parts[2], release = v_parts[3])
+# [1] "v72.002.304"
+```
+
+### Sending simple mail messages
+
+`charlie` provides a simple wrapper around the [mail](https://linux.die.net/man/1/mail) application. You can easily send an email to one or more email addresses. Note that you can also configure your PBS session to also notify by email, but it provides no customization of messages or attachments.
+
+```
+charlier::sendmail(to = "henry@bigelow.org", 
+                   subject = "thanks for the fishes",
+                   message = c("these skate eggs are delicious",
+                               sprintf("but the shells are so %s", "chewy")),
+                   attachment = "~/breakfast.jpg")
+```
+
+
+### Tidy R data files (Rds)
+
+[Serialized R data files](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/readRDS) can be handy when saving complex list-like structures.  Be aware that the do not provide version-agnostic access like simple text files, standard image files or scientific data formats (netcdf, hdf, ...) Backwards compatibility is not a sure thing.  But they can be handy sometimes.  We wrap `saveRDS` and `readRDS` in functions to permit their use in tidy workflows.
+
+```
+library(magrittr)
+x <- list(a = "foo", b = sample(100, 10)) %>%
+  charlier::write_RDS("~/my_list.rds")
+  
+y <- charlier::read_RDS("~/my_list.rds")
+
+identical(x, y)
+# [1] TRUE
+``` 
+
+
+### File extensions
+
+We provide simple functionality to manage file extensions: retrieving them, stripping them and adding them.
+
+```
+filenames = c("BR2_2016_S216_L001_R2_001.fastq", "foobar.fastq.gz", "fuzzbaz", "oof.txt")
+
+charlier::get_extension(filenames)
+# [1] "fastq" "gz"    NA      "txt"  
+
+charlier::get_extension(filenames, segments = 2)
+# [1] NA         "fastq.gz" NA         NA 
+
+charlier::strip_extension(filenames)
+
+
+```

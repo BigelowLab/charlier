@@ -1,0 +1,10 @@
+global:
+  foo: 1.0
+  paths:
+    input_path: /my/input_path
+    output_path: /my/input_path/output
+process:
+  in: $GLOBAL_PATHS_INPUT_PATH
+  out: $GLOBAL_PATHS_OUTPUT_PATH
+  pi: 3.14
+  bar: $GLOBAL_FOO
