@@ -15,3 +15,15 @@ a vector of the intersection or NULL is the input is empty
 \description{
 Compute the intersection of a list of vectors
 }
+\examples{
+\dontrun{
+   x <- c(1, 5, 7, 9)
+   y <- c(3, 5, 8, 9, 11, 42)
+   z <- c(0, 5, 6, 9, 11)
+   mintersect(list(x,y,z))
+   # [1]  5  9 
+} 
+}
+\seealso{
+\code{\link[base]{intersect}}
+}

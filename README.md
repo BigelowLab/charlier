@@ -8,6 +8,14 @@ A small set of R tools to make working on `charlie` with worklows a little easie
   
   + [futile.logger](https://CRAN.R-project.org/package=futile.logger)
   
+  + [rlang](https://CRAN.R-project.org/package=rlang)
+  
+  + [dplyr](https://CRAN.R-project.org/package=dplyr)
+
+  + [stringr](https://CRAN.R-project.org/package=stringr)
+  
+  + [yaml](https://CRAN.R-project.org/package=yaml)
+  
   
 ## Features
 
@@ -26,6 +34,8 @@ A small set of R tools to make working on `charlie` with worklows a little easie
 + Tidy R data files (Rds)
 
 + File extensions
+
++ Miscellaneous goodies
 
 
 ## Installation
@@ -240,5 +250,40 @@ charlier::get_extension(filenames, segments = 2)
 
 charlier::strip_extension(filenames)
 
+```
 
+### Miscellany
+
+
+### Set operations on multiple vectors
+
+R provides set operations for working on pairs of vectors - see `?union`.  We provide an expansion of these to operate on multiple vectors bundled in a list.
+
+```
+x <- c(1, 5, 7, 9)
+y <- c(3, 5, 8, 9, 11, 42)
+z <- c(0, 5, 6, 9, 11)
+
+charlier::munion(list(x,y,z))
+# [1]  1  5  7  9  3  8 11 42  0  6 
+
+charlier::mintersect(list(x,y,z))
+# [1]  5  9
+```
+
+
+
+
+
+### String operations
+
+R has some nice string matching functions (see `?grep`), and the [stringr](https://CRAN.R-project.org/package=stringr) package exposes a lot of nice uniform interface utilities for same end.
+
+Sometimes you have a set of strings like names and you want to search for one or more patterns within that set without caring to know how the match exactly.  Use the `mgrepl` function (for "multiple grepl" - get it?) to generate a logica vector of match/no-match.  This is analogous to using the `%in%` operator, but you can deploy partial matching. Be sure to see the `?grepl` docs for details on other extra arguments.
+
+```
+x <- c("dog", "canine", "squirrel", "fish", "banana")
+pattern <- c("nine", "ana")
+charlier::mgrepl(pattern, x, fixed = TRUE)
+# [1] FALSE  TRUE FALSE FALSE  TRUE
 ```

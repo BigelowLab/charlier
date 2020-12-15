@@ -15,3 +15,12 @@ a vector of the union or NULL is the input is empty
 \description{
 Compute the union of a list of vectors
 }
+\examples{
+\dontrun{
+  munion(list(x,y,z))
+  # [1]  1  5  7  9  3  8 11 42  0  6  
+} 
+}
+\seealso{
+\code{\link[base]{union}}
+}
