@@ -30,8 +30,7 @@ logger_levels <- function(){
 #'    flog.info("Hello, %s!", who)
 #'  } 
 start_logger <- function(filename = "./log", level = "info"){
-  futile.logger::flog.threshold(getFromNamespace(toupper(level[1]), 
-                                pos = "package:futile.logger"))
+  futile.logger::flog.threshold(getFromNamespace(toupper(level[1]),"futile.logger"))
   if (!is.null(filename) & !is.na(filename)){
     futile.logger::flog.appender(futile.logger::appender.tee(filename[1]))
   }  
