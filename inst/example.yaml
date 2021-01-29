@@ -1,5 +1,6 @@
 global:
   foo: 1.0
+  sailing: 42
   paths:
     input_path: /my/input_path
     output_path: /my/input_path/output

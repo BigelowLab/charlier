@@ -37,28 +37,32 @@ write_config <- function(x, filename, ...){
 #'
 #' @export
 #' @param x configuration list
-#' @param fields named list, provides the identifiers within the config to be used as 
-#'  source for placeholders - please don't make very deeply nested lists. 
+#' @param fields named list or NULL, provides the identifiers within the config to be used as 
+#'  source for placeholders - please don't make very deeply nested lists. If NULL (default) then all of 
+#'  the fields in the \code{rootname} section are used.  NOTE that not every element must be
+#'  a candidate for replacing $PLACEHOLDERS 
 #' @param rootname the name of the element in \code{x} that contains the fields
 #' @return an updated version of the input, \code{x}, that is autpopulated with the fields 
 #'  identified
 autopopulate_config <- function(
   x = read_config(example = TRUE, autopopulate = FALSE),
   fields = list(
+     NULL,
+     list(
      foo = "foo",
-     paths = c("input_path", "output_path")),
+     paths = c("input_path", "output_path")))[[1]],
   rootname = "global"){
   
   stopifnot(rootname %in% names(x))
   
-  # first get the $PLACEHOLDER=value vector
-  v <- unlist(lapply(names(x[[rootname]]),
+  if (is.null(fields)){
+    v <- lapply(names(x[[rootname]]),
       function(xname){
         if (length(x[[rootname]][[xname]]) == 1){
           val <- x[[rootname]][[xname]][[1]]
           names(val) <- toupper(xname)
         } else {
-          val <- sapply(fields[[xname]],
+          val <- sapply(names(x[[rootname]][[xname]]),      # <- difference here (see below)
                       function(yname){
                         z <- x[[rootname]][[xname]][[yname]]
                         names(z) <- toupper(yname)
@@ -67,8 +71,26 @@ autopopulate_config <- function(
         names(val) <- sprintf("%s_%s", toupper(xname), names(val))
         }
         val
-      }))
-        
+      })
+  } else {
+    v <- lapply(names(x[[rootname]]),
+        function(xname){
+          if (length(x[[rootname]][[xname]]) == 1){
+            val <- x[[rootname]][[xname]][[1]]
+            names(val) <- toupper(xname)
+          } else {
+            val <- sapply(fields[[xname]],                 # <- difference here (see above)
+                        function(yname){
+                          z <- x[[rootname]][[xname]][[yname]]
+                          names(z) <- toupper(yname)
+                          z
+                        }, USE.NAMES = FALSE)
+          names(val) <- sprintf("%s_%s", toupper(xname), names(val))
+          }
+          val
+      })
+    }
+    v <- unlist(v)    
     names(v) <- paste0("$", toupper(rootname), "_", names(v))
 
     tmp_file <- tempfile()

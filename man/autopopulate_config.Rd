@@ -6,15 +6,17 @@
 \usage{
 autopopulate_config(
   x = read_config(example = TRUE, autopopulate = FALSE),
-  fields = list(foo = "foo", paths = c("input_path", "output_path")),
+  fields = list(NULL, list(foo = "foo", paths = c("input_path", "output_path")))[[1]],
   rootname = "global"
 )
 }
 \arguments{
 \item{x}{configuration list}
 
-\item{fields}{named list, provides the identifiers within the config to be used as 
-source for placeholders - please don't make very deeply nested lists.}
+\item{fields}{named list or NULL, provides the identifiers within the config to be used as 
+source for placeholders - please don't make very deeply nested lists. If NULL (default) then all of 
+the fields in the \code{rootname} section are used.  NOTE that not every element must be
+a candidate for replacing $PLACEHOLDERS}
 
 \item{rootname}{the name of the element in \code{x} that contains the fields}
 }
