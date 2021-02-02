@@ -43,11 +43,13 @@ A small set of R tools to make working on `charlie` with worklows a little easie
 Within R...
 
 ```
-devtools::install_github("BigelowLab/charlier") # if you have credentials to github
+# if you have credentials to github
+devtools::install_github("BigelowLab/charlier") 
 
 # or 
 
-devtools::install("/mnt/storage/data/edna/packages/charlier") # if you have access to github /mnt/storage/data/edna/packages
+# if you have access to github /mnt/storage/data/edna/packages
+devtools::install("/mnt/storage/data/edna/packages/charlier") 
 ```
 
 ## Introduction
@@ -130,65 +132,7 @@ charlier::count_cores()
 
 ### Manage configuration files
 
-We use a simple and widely used configuration file format called [yaml](https://yaml.org/).  We rely on the [yaml](https://CRAN.R-project.org/package=yaml) R package for input and output.  Once you are within R, a configuration is just a list, possibly nested, where every element in named.
-
-We provide an example that you can read and write.
-
-```
-cfg = charlier::read_config(example = TRUE)
-#List of 2
-# $ global :List of 2
-#  ..$ foo  : num 1
-#  ..$ paths:List of 2
-#  .. ..$ input_path : chr "/my/input_path"
-#  .. ..$ output_path: chr "/my/input_path/output"
-# $ process:List of 4
-#  ..$ in : chr "$GLOBAL_INPUT_PATH"
-#  ..$ out: chr "$GLOBAL_OUTPUT_PATH"
-#  ..$ pi : num 3.14
-#  ..$ bar: chr "$GLOBAL_FOO"
-
-charlier::write_config(cfg, "~/my_very_own_config.yaml")
-```
-
-Depending upon your needs, you may discover that some values in the configuration file are repeated.  Given that yaml files are often hand crafted that can lead to keystroke and other user entry errors. These errors most often happen when working with file and directory path descriptions.  We implement an optional 'autopopulate' feature so that you can write into a particular section a set of global values that are automatically sprinkled through the remainder of the configuration file where appropriate.
-
-The example configuration looks like this in the file. Note the presence of value placeholder in the style of `$NAME1_NAME2...` such as `$GLOBAL_PATHS_INPUT_PATH` and `$GLOBAL_FOO`. 
-
-```
-global:
-  foo: 1.0
-  paths:
-    input_path: /my/input_path
-    output_path: /my/input_path/output
-process:
-  in: $GLOBAL_PATHS_INPUT_PATH
-  out: $GLOBAL_PATHS_OUTPUT_PATH
-  pi: 3.14
-  bar: $GLOBAL_FOO
-```
-
-We can run autopopulation if are explicit about the names we want to replace. The output shows that 
-placeholder values have been filled with elements from the global section.
-
-```
-y <- charlier::autopopulate_config(x, 
-  fields = list(
-      foo = "foo",
-      paths = list("input_path", "output_path")))
-# List of 2
-#  $ global :List of 2
-#   ..$ foo  : num 1
-#   ..$ paths:List of 2
-#   .. ..$ input_path : chr "/my/input_path"
-#   .. ..$ output_path: chr "/my/input_path/output"
-#  $ process:List of 4
-#   ..$ in : chr "/my/input_path"
-#   ..$ out: chr "/my/input_path/output"
-#   ..$ pi : num 3.14
-#   ..$ bar: int 1
-```
-
+We use a simple and widely used configuration file format called [yaml](https://yaml.org/).  We rely on the [yaml](https://CRAN.R-project.org/package=yaml) R package for input and output.  Once you are within R, a configuration is just a list, possibly nested, where every element in named.  See the [wiki](https://github.com/BigelowLab/charlier/wiki/Configurations) for an example.
 
 
 ### Version parsing
@@ -270,10 +214,6 @@ charlier::munion(list(x,y,z))
 charlier::mintersect(list(x,y,z))
 # [1]  5  9
 ```
-
-
-
-
 
 ### String operations
 
