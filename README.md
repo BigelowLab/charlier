@@ -21,11 +21,11 @@ A small set of R tools to make working on `charlie` with worklows a little easie
 
 + Establish standard  [logging](https://github.com/BigelowLab/charlier/wiki/Logging) (to log file and console)
 
-+ Audit currently installed R software
++ [Audit](https://github.com/BigelowLab/charlier/wiki/Auditing) currently installed R software
 
 + Interact with environment
 
-+ Manage configuration lists
++ Manage [configuration](https://github.com/BigelowLab/charlier/wiki/Configurations) lists
 
 + Version parsing
 
@@ -36,6 +36,10 @@ A small set of R tools to make working on `charlie` with worklows a little easie
 + File extensions
 
 + Miscellaneous goodies
+
+    - set operations
+    
+    - string operations
 
 
 ## Installation
@@ -54,40 +58,14 @@ devtools::install("/mnt/storage/data/edna/packages/charlier")
 
 ## Introduction
 
-### Logging
+### Logging messages
 
-See the [wiki](https://github.com/BigelowLab/charlier/wiki/Logging) for logging information.
+Logging messages can be an important part of the post-mortem of a workflow that fails.  We provide tools for easy logging. See the [wiki](https://github.com/BigelowLab/charlier/wiki/Logging) for logging information.
 
 
 ### Auditing installed R software
 
-In addition to using repositories, containers, modules and the like to manage software versions, soemtimes it is nice to simple dump a snapshot of current software to a text file.  It is not a bad idea to do so for every workflow version you run - much as you might establish logging. 
-
-```
-charlier::audit(filename = "~/my_audit.txt")
-```
-
-Here's an snippet of the first dozen lines...
-
-```
-Audit date: 2020-12-14 08:04:49 EST 
-System PID: 14355 
-PBS_JOBID:  
-Cores: 4 
-R version: R version 4.0.3 (2020-10-10) 
-libPaths():
-     /home/btupper/R/x86_64-conda-linux-gnu-library/4.0 
-     /mnt/modules/bin/dada2/1.18/lib/R/library 
-installed.packages():
-"Package","Version","LibPath"
-"charlier","0.1","/home/btupper/R/x86_64-conda-linux-gnu-library/4.0"
-"dplyr","1.0.2","/home/btupper/R/x86_64-conda-linux-gnu-library/4.0"
-"generics","0.1.0","/home/btupper/R/x86_64-conda-linux-gnu-library/4.0"
-  .
-  .
-  .
-```
-
+In addition to using repositories, containers, modules and the like to manage software versions, soemtimes it is nice to simple dump a snapshot of current software to a text file.  It is not a bad idea to do so for every workflow version you run - much as you might establish logging.  See the [wiki](https://github.com/BigelowLab/charlier/wiki/Auditing) for auditing information.
 
 ### Interact with the environment
 
@@ -185,7 +163,7 @@ charlier::strip_extension(file.path("/my/path", filenames))
 ### Miscellany
 
 
-### Set operations on multiple vectors
+#### Set operations on multiple vectors
 
 R provides set operations for working on pairs of vectors - see `?union`.  We provide an expansion of these to operate on multiple vectors bundled in a list.
 
@@ -201,7 +179,7 @@ charlier::mintersect(list(x,y,z))
 # [1]  5  9
 ```
 
-### String operations
+#### String operations
 
 R has some nice string matching functions (see `?grep`), and the [stringr](https://CRAN.R-project.org/package=stringr) package exposes a lot of nice uniform interface utilities for same end.
 
