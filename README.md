@@ -165,7 +165,7 @@ charlier::sendmail(to = "henry@bigelow.org",
 
 ### Tidy R data files (Rds)
 
-[Serialized R data files](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/readRDS) can be handy when saving complex list-like structures.  Be aware that the do not provide version-agnostic access like simple text files, standard image files or scientific data formats (netcdf, hdf, ...) Backwards compatibility is not a sure thing.  But they can be handy sometimes.  We wrap `saveRDS` and `readRDS` in functions to permit their use in tidy workflows.
+[Serialized R data files](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/readRDS) can be handy when saving complex list-like structures.  Be aware that these do not provide version-agnostic access like simple text files, standard image files or scientific data formats (netcdf, hdf, ...) Backwards compatibility is not a sure thing.  But they can be handy sometimes.  We wrap `saveRDS` and `readRDS` in functions to permit their use in tidy workflows.
 
 ```
 library(magrittr)
