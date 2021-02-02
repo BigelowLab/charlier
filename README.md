@@ -193,6 +193,12 @@ charlier::get_extension(filenames, segments = 2)
 # [1] NA         "fastq.gz" NA         NA 
 
 charlier::strip_extension(filenames)
+# [1] "./BR2_2016_S216_L001_R2_001" "./foobar.fastq"             
+# [3] "./fuzzbaz"                   "./oof"  
+
+charlier::strip_extension(file.path("/my/path", filenames))
+#[1] "/my/path/BR2_2016_S216_L001_R2_001" "/my/path/foobar.fastq"             
+#[3] "/my/path/fuzzbaz"                   "/my/path/oof"  
 
 ```
 
