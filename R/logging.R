@@ -1,5 +1,7 @@
 #' Retrieve an integer vector of known logger levels for \code{futile.logger}
 #'
+#' We rely on \href{https://CRAN.R-project.org/package=futile.logger}{futile.logger}, but that is subject to change.
+#'
 #' @export
 #' @return a named integer vector
 logger_levels <- function(){
@@ -7,6 +9,8 @@ logger_levels <- function(){
 }
 
 #' Start a \code{\link[futile.logger]{flog.logger}}
+#'
+#' We rely on \href{https://CRAN.R-project.org/package=futile.logger}{futile.logger}, but that is subject to change.
 #'
 #' This doesn't actually start the logger, but it might feel like it.  Here you can simply
 #' set an optional filename to echo the output to, and you can set the logging level. There
@@ -35,4 +39,36 @@ start_logger <- function(filename = "./log", level = "info"){
     futile.logger::flog.appender(futile.logger::appender.tee(filename[1]))
   }  
   invisible(NULL)
+}
+
+
+#' A wrapper around the logging informational level messaging.
+#'
+#' We rely on \href{https://CRAN.R-project.org/package=futile.logger}{futile.logger}, but that is subject to change.
+#'
+#' @export
+#' @param ... arguments for \code{\link[futile.logger]{flog.info}}
+info <- function(...){
+  futile.logger::flog.info(...)
+}
+
+#' A wrapper around the logging warning level messaging
+#'
+#' We rely on \href{https://CRAN.R-project.org/package=futile.logger}{futile.logger}, but that is subject to change.
+#'
+#' @export
+#' @param ... arguments for \code{\link[futile.logger]{flog.warn}}
+warn <- function(...){
+  futile.logger::flog.warn(...)
+}
+
+
+#' A wrapper around the logging error level messaging
+#'
+#' We rely on \href{https://CRAN.R-project.org/package=futile.logger}{futile.logger}, but that is subject to change.
+#'
+#' @export
+#' @param ... arguments for \code{\link[futile.logger]{flog.error}}
+error <- function(...){
+  futile.logger::flog.error(...)
 }

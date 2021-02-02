@@ -20,6 +20,9 @@ you can still put a \code{flog.debug("blah")} in your script - it just won't pri
 NULL invisibly
 }
 \description{
+We rely on \href{https://CRAN.R-project.org/package=futile.logger}{futile.logger}, but that is subject to change.
+}
+\details{
 This doesn't actually start the logger, but it might feel like it.  Here you can simply
 set an optional filename to echo the output to, and you can set the logging level. There
 are a lot of things you can control about logging, and using this function doesn't prevent

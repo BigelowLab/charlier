@@ -19,7 +19,7 @@ A small set of R tools to make working on `charlie` with worklows a little easie
   
 ## Features
 
-+ Establish standard logging (to log file and console)
++ Establish standard  [logging](https://github.com/BigelowLab/charlier/wiki/Logging) (to log file and console)
 
 + Audit currently installed R software
 
@@ -56,27 +56,7 @@ devtools::install("/mnt/storage/data/edna/packages/charlier")
 
 ### Logging
 
-We recommend using the [futile.logger](https://CRAN.R-project.org/package=futile.logger) package.  We don't use it's full functionality, but it's interface is pretty simple and easy. Well, **except** for kicking it off.  We suggest that you log to the console and a log file at the same time - called a unixy term `tee`. Configuring the logger to `tee` can be a bit opaque to the casual scripter, so we have wrapped the details in a simplifying function.  Once you load the `futile.logger` package it's logging services are available to you, then just configure the `tee`, and, finally, start messaging.
-
-```
-library(futile.logger)
-charlier::start_logger(filename = "~/my_log")
-```
-
-At the simplest usage, we have three levels of messaging available to us: informational, warning and error.  Messages can be crafted programmatically using the same string construction as used in the [sprintf](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sprintf) function. The point is to use logging in a an automated script or workflow, so learning to build messages programmatically is worthwhile.
-
-```
-what <- list("coffee", 2, "you're gonna need a lot more")
-
-flog.info("Good morning, have you had your %s?", what[[1]])
-#INFO [2020-12-14 07:52:44] Good morning, have you had your coffee?
-
-flog.warn("Oh, you might need %i cups of %s", what[[2]], what[[1]])
-#WARN [2020-12-14 07:53:43] Oh, you might need 2 cups of coffee
-
-flog.error("Uh, %s than %i cups of %s", what[[3]], what[[2]], what[[1]])
-#ERROR [2020-12-14 07:53:57] Uh, you're gonna need a lot more than 2 cups of coffee
-```
+See the [wiki](https://github.com/BigelowLab/charlier/wiki/Logging) for logging information.
 
 
 ### Auditing installed R software
