@@ -1,3 +1,15 @@
+#' Tests that an object is NULL nor NA
+#'
+#' \code{NULL} always returns TRUE.  Multiple element non-\code{NULL} objects always return FALSE.  If you are not
+#' sure if your object might be length > 1 then use as \code{is.nullna(x[1])}.
+#' 
+#' @export
+#' @param x an object
+#' @return logical, TRUE if \code{x} is NULL or NA
+is.nullna <- function(x) {
+  is.null(x) || ifelse(length(x) == 1, is.na(x), FALSE)
+}
+
 #' Perform grepl on multiple patterns; it's like  AND-ing or OR-ing successive grepl statements.
 #' 
 #' Adapted from https://stat.ethz.ch/pipermail/r-help/2012-June/316441.html
