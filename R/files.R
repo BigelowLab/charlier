@@ -100,3 +100,29 @@ add_extension <- function(
 
   filename
 }
+
+#' Modify a filename to add a prefix before the extension
+#'
+#' @export
+#' @param filename character, vector of one or more filenames
+#' @param prefix character, the prefix to insert before the file extension
+#' @param segments integer, by default the last (1) segement, but use this to 
+#'   to retrieve the last n segments (like you want the 'tar.gz' not just 'gz')
+#' @return the modufied filename
+prefix_extension <- function(filename = "/this/is/foo.yaml",
+  prefix = "-bar",
+  segments = 1){
+    
+    ext <- paste0(".", get_extension(filename, segments = segments))
+    sub(ext, paste0(prefix, ext), filename, fixed = TRUE)  
+}
+
+#'  Modify a filename to add a suffix before the extension
+#' 
+#' @export
+#' @inheritParams prefix_extension
+suffix_filename <- function(filename = "/this/is/foo.yaml",
+  prefix = "-bar",
+  segments = 1){
+    return(prefix_extension(filename, prefix = prefix, segments = segments))
+  }
