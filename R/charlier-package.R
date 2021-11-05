@@ -7,7 +7,7 @@
 #' @importFrom utils getFromNamespace
 #' @importFrom rlang .data
 #' @importFrom dplyr %>%
-#' @importFrom utils installed.packages write.csv
+#' @importFrom utils installed.packages write.csv packageDescription
 #'
 #' @section Guide to functions:
 #' See \href{https://github.com/BigelowLab/charlier}{charlier} README for examples.

@@ -1,3 +1,21 @@
+#' Scan a file or character vector for one or more tokens.  This is a wrapper around \code{mgrepl}.
+#'
+#' @export
+#' @param x character, either a character vector to scan or a filename
+#' @param tokens character, vector of one or more tokens - if fixed then provide \code{fixed=TRUE} 
+#'  otherwise a regular expression is expected ad then set \code{fixed = FALSE}
+#' @param ... other arguments for \code{mgrepl} and \code{\link[base]{grepl}}, in particular see fixed = TRUE 
+#' @return logical vector, one per input value of x where TRUE indicates one or more tokens were found
+scan_for_tokens <- function(x, tokens = "^.*$", ...){
+  if (length(x) == 1 && file.exists(x[[1]])){
+    x <- readLines(x[[1]])
+    r <- any(mgrepl(tokens, x, ...))
+  } else {
+    r <- mgrepl(tokens, x, ...)
+  }
+  r
+}
+
 #' Tests that an object is NULL nor NA
 #'
 #' \code{NULL} always returns TRUE.  Multiple element non-\code{NULL} objects always return FALSE.  If you are not

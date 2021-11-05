@@ -88,4 +88,27 @@ identify_upgrades <- function(lib_pattern = "^/mnt/modules/bin/dada2"){
 }
 
 
+#' Retrieve a character vector of the packages impoerted by a specified package
+#'
+#' @export
+#' @param x character, one or more packages
+#' @param collapse logical, if TRUE then collapse the packages into a single string
+#' @param exclude character, vector of packages to exlude (base packages generally) or NULL to skip
+#' @return a named list of character package names or a single vector
+package_imports <- function(x = "charlier",
+  collapse = FALSE,
+  exclude = c("stats", "graphics", "grDevices", "utils", "datasets", "methods", "base")){
+    
+    p <- sapply(x,
+      function(pname){
+        p <- packageDescription(pname, fields = "Imports")
+        p <- gsub("\n", "", p, fixed = TRUE)
+        p <- strsplit(gsub(" ", "", p), ",", fixed = TRUE)[[1]]
+        if (!is.null(exclude)) p <- p[!(p %in% exclude)]
+      }, simplify = FALSE)
+    if(collapse) p <- unique(unname(unlist(p)))
+    p
+}
+
+
 
