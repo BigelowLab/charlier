@@ -35,4 +35,5 @@ importFrom(dplyr,"%>%")
 importFrom(rlang,.data)
 importFrom(utils,getFromNamespace)
 importFrom(utils,installed.packages)
-impo
+importFrom(utils,packageDescription)
+importFrom(utils,write.csv)
