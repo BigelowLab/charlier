@@ -99,7 +99,7 @@ autopopulate_config <- function(
     unlink(tmp_file)
     
     for (nm in names(v)){
-      txt <- stringr::str_replace(txt, stringr::coll(nm), v[[nm]])
+      txt <- stringr::str_replace_all(txt, stringr::coll(nm), v[[nm]])
     }    
 
     y <- yaml::read_yaml(text = paste(txt, collapse = "\n"))

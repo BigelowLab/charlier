@@ -6,7 +6,7 @@
 #'  otherwise a regular expression is expected ad then set \code{fixed = FALSE}
 #' @param ... other arguments for \code{mgrepl} and \code{\link[base]{grepl}}, in particular see fixed = TRUE 
 #' @return logical vector, one per input value of x where TRUE indicates one or more tokens were found
-scan_for_tokens <- function(x, tokens = "^.*$", ...){
+scan_for_tokens <- function(x, tokens = "^.*\\$", ...){
   if (length(x) == 1 && file.exists(x[[1]])){
     x <- readLines(x[[1]])
     r <- any(mgrepl(tokens, x, ...))
