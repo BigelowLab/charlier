@@ -4,7 +4,7 @@
 \alias{scan_for_tokens}
 \title{Scan a file or character vector for one or more tokens.  This is a wrapper around \code{mgrepl}.}
 \usage{
-scan_for_tokens(x, tokens = "^.*$", ...)
+scan_for_tokens(x, tokens = "^.*\\\\$", comment = c("#", NA)[1], ...)
 }
 \arguments{
 \item{x}{character, either a character vector to scan or a filename}
@@ -13,6 +13,8 @@ scan_for_tokens(x, tokens = "^.*$", ...)
 otherwise a regular expression is expected ad then set \code{fixed = FALSE}}
 
 \item{...}{other arguments for \code{mgrepl} and \code{\link[base]{grepl}}, in particular see fixed = TRUE}
+
+\item{token}{character or NA, if character, remove lines starting with the comment character before scanning}
 }
 \value{
 logical vector, one per input value of x where TRUE indicates one or more tokens were found

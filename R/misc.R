@@ -4,14 +4,25 @@
 #' @param x character, either a character vector to scan or a filename
 #' @param tokens character, vector of one or more tokens - if fixed then provide \code{fixed=TRUE} 
 #'  otherwise a regular expression is expected ad then set \code{fixed = FALSE}
+#' @param token character or NA, if character, remove lines starting with the comment character before scanning
 #' @param ... other arguments for \code{mgrepl} and \code{\link[base]{grepl}}, in particular see fixed = TRUE 
 #' @return logical vector, one per input value of x where TRUE indicates one or more tokens were found
-scan_for_tokens <- function(x, tokens = "^.*\\$", ...){
+scan_for_tokens <- function(x, tokens = "^.*\\$", 
+  comment = c("#", NA)[1], 
+  ...){
+    
+  scan_for_comments <- function(x, symb = "#"){
+    x <- trimws(x, "left")
+    ix <- grepl("^#", x)
+  }
+    
   if (length(x) == 1 && file.exists(x[[1]])){
     x <- readLines(x[[1]])
-    r <- any(mgrepl(tokens, x, ...))
-  } else {
-    r <- mgrepl(tokens, x, ...)
+  }
+  r <- mgrepl(tokens, x, ...)
+  if (!is.na(comment[1])) {
+    ix <- scan_for_comments(x, symb = comment[1])
+    r[ix] <- FALSE
   }
   r
 }
