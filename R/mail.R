@@ -5,6 +5,7 @@
 #' @param subject character subject line
 #' @param message character, vector of one or more lines of text
 #' @param attachment NULL or charcater, file path to optional attachment
+#' @param verbose logical, if TRUE print the command generated
 #' @return integer success code (0) or some non-zero if an error
 #' @examples
 #' \dontrun{
@@ -17,7 +18,8 @@
 sendmail <- function(to = 'btupper@bigelow.org',
   subject = "mail from charlier",
   message = "It's so wonderful to get mail, ain't it?",
-  attachment = NULL){
+  attachment = NULL,
+  verbose = FALSE){
     
   mailapp <- Sys.which("mail")
   if ( mailapp == "") stop("mail application not available")
@@ -29,10 +31,14 @@ sendmail <- function(to = 'btupper@bigelow.org',
   msgfile <- tempfile()
   cat(message, sep = "\n", file = msgfile)
   
-  cmd <- sprintf("-s %s %s < %s", subject, paste(to, collapse = ","), msgfile)
+  cmd <- sprintf("-s %s %s < %s", shQuote(subject), 
+                 paste(to, collapse = ","), 
+                 msgfile)
   if (!is.null(attachment)){
     cmd <- sprintf("-a %s %s", attachment, cmd)
   } 
+  
+  if (verbose) message(paste('sendmail command:', mailapp, cmd))
   
   ok <- system2(mailapp, args = cmd)
   
