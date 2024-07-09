@@ -8,7 +8,8 @@ sendmail(
   to = "btupper@bigelow.org",
   subject = "mail from charlier",
   message = "It's so wonderful to get mail, ain't it?",
-  attachment = NULL
+  attachment = NULL,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ sendmail(
 \item{message}{character, vector of one or more lines of text}
 
 \item{attachment}{NULL or charcater, file path to optional attachment}
+
+\item{verbose}{logical, if TRUE print the command generated}
 }
 \value{
 integer success code (0) or some non-zero if an error

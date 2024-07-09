@@ -17,4 +17,4 @@ Imports:
   futile.logger,
   stringr,
   yaml
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
