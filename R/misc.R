@@ -106,3 +106,14 @@ mintersect <- function(x){
   
   Reduce(intersect, x)
 }
+
+#' Split a vector into groups of MAX (or possibly fewer)
+#'
+#' @param v vector or list to split
+#' @param MAX numeric the maximum size per group
+#' @return a list of the vector split into groups
+split_vector <- function(v, MAX = 200){
+    nv <- length(v)
+    if (nv <= MAX) return(list('1' = v))
+    split(v, findInterval(seq_len(nv), seq(from = 1, to = nv, by = MAX)))
+}
