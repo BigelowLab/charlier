@@ -6,6 +6,12 @@
 \usage{
 tally_memory(verbose = TRUE)
 }
+\arguments{
+\item{verbose}{logical, if TRUE output helpful info}
+}
+\value{
+data frame of object names, object.size and a printable version
+}
 \description{
 Retrieve a tally of objects and memory used
 }

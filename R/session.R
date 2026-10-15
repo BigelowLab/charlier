@@ -8,6 +8,9 @@ whoami = function(){
 
 #' Retrieve a tally of objects and memory used
 #' 
+#' @export
+#' @param verbose logical, if TRUE output helpful info
+#' @return data frame of object names, object.size and a printable version 
 tally_memory = function(verbose = TRUE){
   
   name = ls(sorted = FALSE, envir = globalenv())
