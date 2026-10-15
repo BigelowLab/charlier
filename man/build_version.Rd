@@ -7,7 +7,7 @@
 build_version(major, minor, release, sep = ".")
 }
 \arguments{
-\item{major}{string, like 'v3' or a named vector with (major, minor, [release])}
+\item{major}{string, like 'v3' or a named vector with (major, minor, \link{release})}
 
 \item{minor}{string, like '13', ignored if major has length > 1}
 

@@ -12,12 +12,12 @@ get_extension(
 \arguments{
 \item{filename}{character, vector of one or more filenames}
 
-\item{segments}{integer, by default the last (1) segement, but use this to 
+\item{segments}{integer, by default the last (1) segement, but use this to
 to retrieve the last n segments (like you want the 'tar.gz' not just 'gz')}
 }
 \value{
-character vector of the last \code{segments} of the filename(s). If no 
-  extension then NA_character_ is returned.
+character vector of the last \code{segments} of the filename(s). If no
+extension then NA_character_ is returned.
 }
 \description{
 Retrieve file extensions

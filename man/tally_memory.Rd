@@ -4,10 +4,12 @@
 \alias{tally_memory}
 \title{Retrieve a tally of objects and memory used}
 \usage{
-tally_memory(verbose = TRUE)
+tally_memory(verbose = TRUE, ...)
 }
 \arguments{
 \item{verbose}{logical, if TRUE output helpful info}
+
+\item{...}{other arguments for formatting \code{\link[utils:object.size]{utils::object.size()}} objects}
 }
 \value{
 data frame of object names, object.size and a printable version

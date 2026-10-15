@@ -11,7 +11,7 @@ suffix_filename(filename = "/this/is/foo.yaml", prefix = "-bar", segments = 1)
 
 \item{prefix}{character, the prefix to insert before the file extension}
 
-\item{segments}{integer, by default the last (1) segement, but use this to 
+\item{segments}{integer, by default the last (1) segement, but use this to
 to retrieve the last n segments (like you want the 'tar.gz' not just 'gz')}
 }
 \description{

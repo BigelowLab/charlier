@@ -11,7 +11,7 @@ mgrepl(pattern, x, op = `|`, ...)
 
 \item{x}{the character vector to search}
 
-\item{op}{logical vector operator back quoted, defaults to `|`}
+\item{op}{logical vector operator back quoted, defaults to \code{|}}
 
 \item{...}{further arguments for \code{grepl} like \code{fixed} etc.}
 }

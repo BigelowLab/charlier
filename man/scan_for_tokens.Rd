@@ -9,7 +9,7 @@ scan_for_tokens(x, tokens = "^.*\\\\$", comment = c("#", NA)[1], ...)
 \arguments{
 \item{x}{character, either a character vector to scan or a filename}
 
-\item{tokens}{character, vector of one or more tokens - if fixed then provide \code{fixed=TRUE} 
+\item{tokens}{character, vector of one or more tokens - if fixed then provide \code{fixed=TRUE}
 otherwise a regular expression is expected ad then set \code{fixed = FALSE}}
 
 \item{...}{other arguments for \code{mgrepl} and \code{\link[base]{grepl}}, in particular see fixed = TRUE}

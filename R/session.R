@@ -10,15 +10,16 @@ whoami = function(){
 #' 
 #' @export
 #' @param verbose logical, if TRUE output helpful info
+#' @param ... other arguments for formatting [utils::object.size()] objects
 #' @return data frame of object names, object.size and a printable version 
-tally_memory = function(verbose = TRUE){
+tally_memory = function(verbose = TRUE, ...){
   
   name = ls(sorted = FALSE, envir = globalenv())
   o = lapply(name,
     function(nmx){
       object.size(get(nmx))
     })
-  f = sapply(o, format)
+  f = sapply(o, format, ...)
   
   x = dplyr::tibble(name = name,
                     object.size = o,
@@ -29,7 +30,7 @@ tally_memory = function(verbose = TRUE){
   if (verbose){
     s = sapply(x$object.size, as.numeric) |>
       sum()
-    cat(sprintf("%s: %gMB", whoami(), s/(1000^2)), "\n")
+    cat(sprintf("%s: %g MB total", whoami(), s/(1000^2)), "\n")
   }
   
   x
