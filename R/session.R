@@ -15,23 +15,30 @@ whoami = function(){
 tally_memory = function(verbose = TRUE, ...){
   
   name = ls(sorted = FALSE, envir = globalenv())
-  o = lapply(name,
-    function(nmx){
-      object.size(get(nmx))
-    })
-  f = sapply(o, format, ...)
-  
-  x = dplyr::tibble(name = name,
-                    object.size = o,
-                    size = f)
-  s = sapply(x$object.size, as.numeric)
-  x = dplyr::slice(x, order(s, decreasing = TRUE))
-  
-  if (verbose){
-    s = sapply(x$object.size, as.numeric) |>
-      sum()
-    cat(sprintf("%s: %g MB total", whoami(), s/(1000^2)), "\n")
+  if (length(name) > 0){
+    o = lapply(name,
+      function(nmx){
+        object.size(get(nmx))
+      })
+    f = sapply(o, format, ...)
+    
+    x = dplyr::tibble(name = name,
+                      object.size = o,
+                      size = f)
+    s = sapply(x$object.size, as.numeric)
+    x = dplyr::slice(x, order(s, decreasing = TRUE))
+    
+    if (verbose){
+      s = sapply(x$object.size, as.numeric) |>
+        sum()
+      cat(sprintf("%s: %g MB total", whoami(), s/(1000^2)), "\n")
+    }
+    
+  } else {
+    x = dplyr::tibble()
+    cat(sprintf("%s: %g MB total", whoami(), 0.0), "\n")
   }
+  
   
   x
 }
