@@ -13,3 +13,19 @@ Provides added tools for working within projects in the queued/charlie environme
 See \href{https://github.com/BigelowLab/charlier}{charlier} README for examples.
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/BigelowLab/charlier}
+}
+
+}
+\author{
+\strong{Maintainer}: Ben Tupper \email{btupper@bigelow.org}
+
+Other contributors:
+\itemize{
+  \item Kevin Guay \email{kguay@bigelow.org} [contributor]
+}
+
+}

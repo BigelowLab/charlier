@@ -2,14 +2,14 @@ Package: charlier
 Type: Package
 Title: charlier: charlie workflow helpers
 Version: 0.1
-Author: Ben Tupper <btupper@bigelow.org>
-Maintainer: Ben Tupper <btupper@bigelow.org>
+Authors@R: c(person("Ben", "Tupper", email = "btupper@bigelow.org", role = c("aut", "cre")),
+             person("Kevin", "Guay", email = "kguay@bigelow.org", role = c("ctb")))
 Description: Provides added tools for working within projects in the queued/charlie environment.
 License: GPL-3
 URL: https://github.com/BigelowLab/charlier
 Encoding: UTF-8
 Depends:
-    R (>= 3.0)
+    R (>= 4.1.0)
 Imports:
   utils,
   rlang,
@@ -17,4 +17,5 @@ Imports:
   futile.logger,
   stringr,
   yaml
-RoxygenNote: 7.2.0
+RoxygenNote: 7.3.2
+Roxygen: list(markdown = TRUE)

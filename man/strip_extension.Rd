@@ -15,7 +15,7 @@ strip_extension(
 
 \item{segments}{integer, by default 1, ignored if pattern is not NA}
 
-\item{pattern}{character, a pattern to strip. If not NA then 
+\item{pattern}{character, a pattern to strip. If not NA then
 \code{segments} is ignored.}
 }
 \value{

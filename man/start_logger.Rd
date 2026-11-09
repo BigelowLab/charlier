@@ -7,11 +7,11 @@
 start_logger(filename = "./log", level = "info")
 }
 \arguments{
-\item{filename}{character, NA or NULL  If not NULL or NA, then the name of the 
+\item{filename}{character, NA or NULL  If not NULL or NA, then the name of the
 loging file to write to in addition to console logging}
 
-\item{level}{character, by default "info" but complete options include 
-trace, debug, info, warn, error, fatal  Setting the level to info allows for 
+\item{level}{character, by default "info" but complete options include
+trace, debug, info, warn, error, fatal  Setting the level to info allows for
 messages \code{flog.info(...)} through \code{flog.fatal(...)} to be printed.
 Set it to lower values just for debugging.  Not that if the level is "info" then
 you can still put a \code{flog.debug("blah")} in your script - it just won't print.}
