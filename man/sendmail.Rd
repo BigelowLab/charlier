@@ -9,6 +9,8 @@ sendmail(
   subject = "mail from charlier",
   message = "It's so wonderful to get mail, ain't it?",
   attachment = NULL,
+  from = getOption("charlier.from", default = paste0(whoami(), "@bigelow.org")),
+  smtp = getOption("charlier.smtp", default = "mail.bigelow.org:25"),
   verbose = FALSE
 )
 }
@@ -19,7 +21,13 @@ sendmail(
 
 \item{message}{character, vector of one or more lines of text}
 
-\item{attachment}{NULL or charcater, file path to optional attachment}
+\item{attachment}{NULL or character, file path to optional attachment}
+
+\item{from}{character, sender address (used only when relaying via \code{smtp}).
+Defaults to \code{getOption("charlier.from")}, else \code{<user>@bigelow.org}}
+
+\item{smtp}{character, "host:port" of the SMTP relay, or NULL to use the local MTA.
+Defaults to \code{getOption("charlier.smtp", "mail.bigelow.org:25")}}
 
 \item{verbose}{logical, if TRUE print the command generated}
 }
