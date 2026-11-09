@@ -20,3 +20,12 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Ben Tupper \email{btupper@bigelow.org}
+
+Other contributors:
+\itemize{
+  \item Kevin Guay \email{kguay@bigelow.org} [contributor]
+}
+
+}
